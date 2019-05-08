@@ -3,7 +3,6 @@ import axios from 'axios'
 
 import App from './App'
 import router from './router'
-import store from './store'
 import Notify from '../renderer/components/Notification'
 import VCalendar from 'v-calendar/lib/v-calendar.umd';
 
@@ -22,6 +21,5 @@ Vue.use(VCalendar, {
 new Vue({
   components: { App },
   router,
-  store,
   template: '<App/>'
 }).$mount('#app')
