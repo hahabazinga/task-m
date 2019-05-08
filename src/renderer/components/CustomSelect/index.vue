@@ -25,15 +25,7 @@
             },
             options: {
                 type: Array,
-                default: () => [{
-                        text: '一般',
-                        value: 1
-                    },
-                    {
-                        text: '重要',
-                        value: 2
-                    }
-                ]
+                default: () => []
             }
         },
         model: {
@@ -53,7 +45,6 @@
         },
         methods: {
             optionClick: function(option) {
-                console.log('click')
                 const value = option.value;
                 if (this.value !== value) {
                     this.$emit('change', value);
@@ -65,8 +56,6 @@
     
             // 如果是select内触发的click，则忽略，由optionClick处理；否则，隐藏options，取消body的click监听
             bodyClickListener: function(ev) {
-                console.log('body click', ev)
-                
                 if (ev.path.find(item => item.className && item.className.includes('custom-select')) === undefined) {
                     document.body.removeEventListener('click', this.bodyClickListener);
                     this.showOptions = false;
@@ -75,13 +64,11 @@
     
             // 展示options，并给body添加click监听
             selectInputFocus: function(ev) {
-                console.log('show options', ev)
     
                 this.showOptions = true;
                 document.body.addEventListener('click', this.bodyClickListener)
             }
         }
-    
     }
 </script>
 

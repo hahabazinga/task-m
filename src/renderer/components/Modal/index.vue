@@ -41,7 +41,7 @@
         },
         beforeDestroy() {
             document.body.classList.remove('body-fixed');
-            
+    
         },
     }
 </script>
@@ -89,7 +89,8 @@
         overflow: hidden;
         white-space: nowrap;
     }
-    .content{
+    
+    .content {
         font-size: 12px;
         overflow: scroll;
     }

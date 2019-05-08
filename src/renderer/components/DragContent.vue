@@ -1,6 +1,6 @@
 <template>
   <div class="content-container">
-    <div class="dumpster" @dragover="allowDrop" @drop="drapDelete" >
+    <div class="dumpster" @dragover="allowDrop" @drop="dropDelete" >
     </div>
     <div class="content-header">
     </div>
@@ -77,12 +77,13 @@
         return moment(date).format('LL');
       },
       priorityFormatter: function(priority) {
-        console.log(taskPriorityList, priority)
         const priorityItem = taskPriorityList.find(item => item.value === priority);
         return priorityItem ? priorityItem.text : priority;
       },
     },
     methods: {
+
+      //从数据库中获取所有任务
       getAllTasks: function() {
         getAllTasksFromDB().then(docs => {
           if (docs.length === 0) {
@@ -103,6 +104,8 @@
           console.error(e);
         })
       },
+
+      // 按照种类过滤任务，并按照优先级和截止日期排序
       filterTaskCategory: function(category) {
         return this.taskList.filter(item => item.category === category).sort((a, b) => {
           if (a.priority === b.priority) {
@@ -113,15 +116,15 @@
           return b.priority - a.priority;
         });
       },
+
+      // 开始拖动，记录拖动的task数据
       dragStart(e, task) {
         e.dataTransfer.setData('task', JSON.stringify(task));
-  
-        console.log('satrt', e.dataTransfer.getData('task'));
-      },
+        },
+
+      // 拖动放置， 根据放置的种类更新任务
       dragDrop(e, dropCategory) {
         const draggedTask = JSON.parse(e.dataTransfer.getData('task'));
-        console.log('drop', draggedTask._id);
-  
         if (draggedTask.category === dropCategory) {
           return;
         }
@@ -139,10 +142,14 @@
           console.error(e);
         })
       },
+
+      // allowDrop后drop才能生效
       allowDrop(e) {
         e.preventDefault();
       },
-      drapDelete(e) {
+
+      // 拖动到垃圾桶时删除任务
+      dropDelete(e) {
         const draggedTask = JSON.parse(e.dataTransfer.getData('task'));
         removeTask(draggedTask._id).then(numDeleted => {
           console.log(numDeleted);
@@ -211,8 +218,6 @@
     border: 2px #E4E7ED solid;
     margin: 5px 0;
   }
-  
-  .task-item-id {}
   
   .task-item-name {}
   

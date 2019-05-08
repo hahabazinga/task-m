@@ -58,26 +58,28 @@
           deadline: new Date(),
           priority: 1,
         },
-  
         taskPriorityList: taskPriorityList,
-  
       }
     },
     computed: {
       displayDeadline: function() {
-        console.log(moment.locale('zh-cn'))
+        moment.locale('zh-cn');
         return moment(this.task.deadline).format('LL');
       }
     },
     methods: {
+
+      // 新建按钮点击
       createBtnClick: function() {
         this.showCreateModal = true;
       },
+      // 弹窗->取消按钮点击
       modalOnCancel: function() {
         this.showCreateModal = false;
       },
+
+      // 弹窗->确认按钮点击，新建一个任务
       modalOnOk: function() {
-        console.log(this.task);
         addTask({ ...this.task,
           category: 'BEFORE_START'
         }).then((docs) => {
@@ -185,9 +187,6 @@
   }
   
   .modal-item-deadline {
-    .vc-popover-content-wrapper {
-      font-size: 8px !important;
-    }
     &>input {
       width: 150px;
     }

@@ -44,8 +44,6 @@
                 }, this.timeout);
             }
         }
-    
-    
     }
 </script>
 
